@@ -4,4 +4,4 @@ This repository contains the MEF LSO Interlude SDK.
 
 ## Copyright
 
-© MEF Forum 2019. All Rights Reserved.
+© MEF Forum 2021. All Rights Reserved.

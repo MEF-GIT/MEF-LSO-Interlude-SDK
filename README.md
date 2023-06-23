@@ -7,7 +7,8 @@ Download the entire repository by clicking [here](https://github.com/MEF-GIT/MEF
 ## Overview
 
 This repository contains the release of the Interlude SDK. The SDK includes APIs for Performance Monitoring and metrics definitions.
-This is the first release of this SDK.
+
+**This is the first release of this SDK.**
 
 ## Scope and Maturity
 

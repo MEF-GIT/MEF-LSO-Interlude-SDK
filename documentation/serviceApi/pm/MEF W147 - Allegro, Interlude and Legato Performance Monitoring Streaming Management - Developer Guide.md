@@ -190,6 +190,8 @@ repository:
 
 - [`serviceApi/pm/streamingManagement.api.yaml`](https://github.com/MEF-GIT/MEF-LSO-Legato-SDK-extended/blob/working-draft/serviceApi/pm/streamingManagement.api.yaml)
 
+**Note:** The repository contains `serviceApi/pm/streamingManagement.api.all-in-one.yaml` version of the OAS spec. This version is self contain and do not use references to external resources.
+
 The Streaming Management API is defined using OpenAPI 3.0 Specification
 [[OAS-V3](#8-references)].
 

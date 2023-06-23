@@ -17,18 +17,11 @@ info:
   title: Performance Monitoring
   version: 1.0.0-RC
 servers:
-  - url: 'https://{serverBase}/mefApi/{irp}/streamingManagement/v1'
+  - url: 'https://{serverBase}/mefApi/interlude/streamingManagement/v1'
     variables:
       serverBase:
         default: mef.net
         description: The base of SOF's URL.
-      irp:
-        default: legato
-        description: Interface Reference Point supported by this API
-        enum:
-          - legato
-          - allegro
-          - interlude
 tags:
   - description: Groups all operations related to the available topic.
     name: topic
@@ -349,7 +342,7 @@ paths:
             type: string
       responses:
         '204':
-          description: Unsubscribe operation successful 
+          description: Unsubscribe operation successful
         '400':
           $ref: '#/components/responses/400'
         '401':

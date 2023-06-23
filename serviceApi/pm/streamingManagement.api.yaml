@@ -30,18 +30,11 @@ info:
   contact:
     email: editor@mef.net
 servers:
-  - url: 'https://{serverBase}/mefApi/{irp}/streamingManagement/v1'
+  - url: 'https://{serverBase}/mefApi/interlude/streamingManagement/v1'
     variables:
       serverBase:
         default: mef.net
         description: The base of SOF's URL.
-      irp:
-        default: legato
-        description: Interface Reference Point supported by this API
-        enum:
-          - legato
-          - allegro
-          - interlude
 tags:
   - name: topic
     description: Groups all operations related to the available topic.

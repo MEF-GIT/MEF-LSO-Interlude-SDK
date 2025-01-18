@@ -1,16 +1,14 @@
+$id: urn:mef:lso:spec:legato:ethernet-uni-access-link-trunk:v0.0.4:all
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO Legato - EthernetUniAccessLinkTrunk Specification
+    # MEF Forum - Date: 20231009  Edit-level: 
+    # File: ip/ethernetUniAccessLinkTrunk.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -53,38 +51,30 @@ title:
     # products or services.
     # ---------------------
     #
+description: >-
+  A single point-to-point physical Ethernet channel or multiple physical
+  Ethernet links combined into a Link Aggregation Group. The Ethernet frames
+  associated with a given UNI Access Link can be either untagged/priority-tagged
+  or VLAN tagged. Reference - MEF 61.1.1 A1-1.3 Ethernet UNI Access Link Trunk
+  Service Attributes.
 type: object
 properties:
-  description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
-    type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+  ethernetPhysicalLink:
+    description:
+      A list of the physical link types along with some additional
+      capabilities
+    items:
+      $ref: './ipCommon.yaml#/definitions/EthernetPhysicalLink'
+    type: array
+    minItems: 1
+  ethernetLinkAggregation:
+    description:
+      Configuration of Link Aggregation for the UNI Access Link Trunk
+    $ref: './ipCommon.yaml#/definitions/UniAccessLinkEthernetLinkAggregation'
+    nullable: true
+  ethernetLinkOam:
+    description:
+      Indicates whether Link OAM is used on the UNI Access Link Trunk
+    $ref: './ipCommon.yaml#/definitions/EnabledDisabled'
+allOf:
+  - $ref: './ipUniAccessLinkTrunk.yaml'

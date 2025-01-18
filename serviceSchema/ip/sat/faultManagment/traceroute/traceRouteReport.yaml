@@ -1,11 +1,11 @@
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
+$id: urn:mef:lso:spec:legato:traceroute-report:v0.0.1:all
+x-mef-target: TestAttributeSchema
+description: IP Traceroute Report Schema.
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO - IP Traceroute Results Report
+    # MEF Forum - Date: 20240123  Edit-level: 
+    # File: ip/sat/faultManagement/traceroute/tracerouteReport.yaml
     #
     # ---------------------
     # Disclaimer
@@ -56,35 +56,29 @@ title:
 type: object
 properties:
   description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
+    Data type representing the IP Traceroute results report initiated by Traceroute Configuration request.
+  reportId: 
+    description: >-
+      The reportId is a unique identifier for the report.
     type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+  timestamp: 
+    description: >-
+      The timestamp is the date and time when the report was generated.
+    type: string
+    format: date-time
+  sourceIpAddress: 
+    $ref: '../fmCommon.yaml#/definitions/Ipv4OrIpv6Address'
+  destinationIpAddress: 
+    $ref: '../fmCommon.yaml#/definitions/Ipv4OrIpv6Address'
+  hops:
+    description: >-
+      The hops is an array of Hop.
+    type: array
+    items:
+      $ref: '../fmCommon.yaml#/definitions/Hop'
+required: 
+  - reportId
+  - timestamp
+  - sourceIpAddress
+  - destinationIpAddress
+  - hops

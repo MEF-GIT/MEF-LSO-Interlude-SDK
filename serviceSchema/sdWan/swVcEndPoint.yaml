@@ -1,16 +1,13 @@
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
-title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+$id: urn:mef:lso:spec:legato:swVcEndPoint:v0.0.1:all
+title: MEF LSO Legato SD-WAN Virtual Connection End Point Service Specifications
+    # MEF Forum - Date: 20230124  Edit-level: 
+    # File: sdWan/swVcEndPoint.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -53,38 +50,34 @@ title:
     # products or services.
     # ---------------------
     #
+description: 
+  The SwVcEndPoint is the construct that represents the attachment of an SWVC to a UNI.
+  The SwVcEndPoint provides a container for attributes of the SWVC that can differ at each UNI.
+  Reference MEF 70.2 Section 10 SD-WAN Virtual Connection (SWVC) End Point.
+  Service Attributes.
 type: object
 properties:
-  description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
-    type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+  swVcEndPointIdentifier:
+    $ref: './sdWanCommon.yaml#/definitions/SwVcEndPointIdentifier'
+  ucsEndPointList:
+    minItems: 1
+    type: array
+    description: 
+      Each SWVC End Point has a list of one or more UCS End Points to which it can forward 
+      Ingress IP Packets (from the UNI) and from which it can forward Egress IP Packets 
+      (towards the UNI). Reference MEF 70.2 Section 10.3 SWVC End Point List of UCS End 
+      Points Service Attribute.
+    items:
+      $ref: './ucsEndPoint.yaml'
+  policyMap:
+    type: array
+    description: >-
+      Reference to Policy Map.
+    items:
+      $ref: './sdWanCommon.yaml#/definitions/PolicyMap'
+  networkAddressTranslation:
+    $ref: './sdWanCommon.yaml#/definitions/NetworkAddressTranslation'
+required:
+  - endPointIdentifier
+  - ucsEndPointList
+  

@@ -1,11 +1,9 @@
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
+$id: urn:mef:lso:spec:service:l1-operator-vc-end-point:v0.0.2:all
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO Service - L1 Operator Virtual Connection End Point Service Specification
+    # MEF Forum - Date: 20241105  Edit-level: 
+    # File: l1Cs/l1OperatorVcEndPoint.yaml
     #
     # ---------------------
     # Disclaimer
@@ -53,38 +51,45 @@ title:
     # products or services.
     # ---------------------
     #
-type: object
+description: >-
+  An Operator L1VC End Point represents the logical attachment of an Operator L1VC to an EI. 
+  Reference MEF 64 Section 8.5 Operator L1VC End Point Service Attributes.
 properties:
-  description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
+  identifier:
+    type: string
+    minLength: 1
+    maxLength: 45
+    pattern: "[\x20-\x7F]+"
+    description: >-
+      An identifier for the Operator L1VC End Point is a string that is used to allow the SP/SO
+      and operator to uniquely identify the Operator L1VC End Point. Reference MEF 64 Section 
+      8.5.1 Operator L1VC End Point Identifier Service Attribute.
+  l1VcEndPointExternalInterfaceType:
+      $ref: './l1CsCommon.yaml#/definitions/L1VcEndPointExternalInterfaceType'
+  l1VcEndPointMap:
+    $ref: '#/definitions/L1VcEndPointMap'
+definitions:
+  L1VcEndPointMap:
+    type: object
+    description: >-
+      Either Not Applicable or non-empty list of tuples of attributes in Table 16. Reference 
+      MEF 64 Section 8.5.4 Operator L1VC End Point Map Service Attribute.
+    properties:
+      lineRate:
+        $ref: './l1CsCommon.yaml#/definitions/LineRate'
+      tributarySlotRate:
+        $ref: '#/definitions/TributarySlotRate'
+      tributarySlots:
+        type: array
+        items:
+          type: integer
+        description: >-
+          Tributary Slot is list of integers that represents Tributary Slots occupied in a 
+          HO ODUi.       
+  TributarySlotRate:
+    description: >-
+      Enumeration representing tributary slot rate in Gb/s.
     type: string
     enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+      - 1.25
+      - 2.5      

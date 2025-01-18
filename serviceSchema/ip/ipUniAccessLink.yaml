@@ -1,16 +1,14 @@
+$id: urn:mef:lso:spec:legato:ip-uni-access-link:v0.0.4:all
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO Legato - IP UNI Access Link Specification
+    # MEF Forum - Date: 20231030  Edit-level: 
+    # File: ip/ipUniAccessLink.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -53,38 +51,32 @@ title:
     # products or services.
     # ---------------------
     #
+description: An individual connection between the Subscriber and the SP that forms part of a UNI. Reference MEF 61.1 Section 7.3 UNIs and UNI Access Link.
 type: object
 properties:
-  description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
+  identifier:
     type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+    maxLength: 53
+    description: Unique identifier for the UNI Access Link for management purposes. Reference MEF 61.1 Section 13.1 UNI Access Link Identifier Service Attribute.
+  connectionType:
+    $ref: "./ipCommon.yaml#/definitions/ConnectionType"
+  ipv4ConnectionAddressing:
+    $ref: "./ipCommon.yaml#/definitions/UniIpv4ConnectionAddressing"
+  ipv6ConnectionAddressing:
+    $ref: "./ipCommon.yaml#/definitions/UniIpv6ConnectionAddressing"
+  dhcpRelay:
+    $ref: "./ipCommon.yaml#/definitions/DhcpRelay"
+  prefixDelegation:
+    $ref: "./ipCommon.yaml#/definitions/EnabledDisabled"
+  ingressBwpEnvelope:
+    $ref: "./ipCommon.yaml#/definitions/IpUniAccessLinkIngressBwpEnvelope"
+  egressBwpEnvelope:
+    $ref: "./ipCommon.yaml#/definitions/IpUniAccessLinkEgressBwpEnvelope"
+  reservedVrids:
+    type: array
+    items:
+      $ref: "./ipCommon.yaml#/definitions/Vrid"
+required:
+  - prefixDelegation
+allOf:
+  - $ref: './ipServicesExternalInterfaceLink.yaml'  

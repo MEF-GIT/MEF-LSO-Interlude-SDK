@@ -1,16 +1,14 @@
+$id: urn:mef:lso:spec:legato:ipvc-end-point:v0.0.4:all
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO Legato - IPVC End Point Specification
+    # MEF Forum - Date: 20231009  Edit-level: 
+    # File: ip/ipvcEndPoint.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -53,38 +51,42 @@ title:
     # products or services.
     # ---------------------
     #
+description:
+   An IPVC End Point is a logical entity at an EI, to which a subset of packets that traverse the EI is mapped. Reference MEF 61.1 Section 7.4 IP Virtual Connections and IPVC End Points.
 type: object
 properties:
-  description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
+  identifier:
     type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+    maxLength: 53
+    description: A unique identifier for the IPVC End Point for management purposes. Reference MEF 61.1 Section 11.1 IPVC EP Identifier Service Attribute.
+  eiType:
+    $ref: './ipCommon.yaml#/definitions/ExternalInterfaceType'
+  role:
+    $ref: './ipCommon.yaml#/definitions/IpvcEndPointRole'
+  prefixMapping:
+    description: Is a list, possibly empty of IP Pre-fixes. It is used to specify which subnets with the Subscriber Net-work can access the IPVC via this IPVC EP. Reference MEF 61.1 Section 11.5 IPVC EP Prefix Mapping Service Attribute.
+    $ref: './ipCommon.yaml#/definitions/Ipv4OrIpv6Prefix'
+  enniServiceMappingIdentifier:
+    type: string
+    maxLength: 53
+    description: ENNI Service Mapping Identifier assigned by the SP/SO for associating IPVC End Points across and ENNI. (Operator IPVC End Points only). Reference MEF 61.1 Section 11.6 IPVC EP ENNI Service Mapping Identifier Service Attribute.
+  maximumNumberOfIpv4Routes:
+    type: integer
+    description: Maximum number of IPv4 routes supported by this IPVC End Point. Reference MEF 61.1 Section 11.7 IPVC EP Maximum Number of IPv4 Routes Service Attribute. Absence of this attribute corresponds to a value of “Unlimited”.
+  maximumNumberOfIpv6Routes:
+    type: integer
+    description: Maximum number of IPv6 routes supported by this IPVC End Point. Reference MEF 61.1 Section 11.8 IPVC EP Maximum Number of IPv6 Routes Service Attribute. Absence of this attribute corresponds to a value of “Unlimited”.
+  ingressClassOfServiceMap:
+    $ref: './ipCommon.yaml#/definitions/IngressClassOfServiceMap'
+  egressClassOfServiceMap:
+    $ref: './ipCommon.yaml#/definitions/EgressClassOfServiceMap'
+  ingressBwpEnvelope:
+    $ref: './ipCommon.yaml#/definitions/IpvcEpIngressBwpEnvelope'
+  egressBwpEnvelope:
+    $ref: './ipCommon.yaml#/definitions/IpvcEpEgressBwpEnvelope'
+  required:
+      - eiType
+      - role
+      - prefixMapping
+      - ingressClassOfServiceMap
+      - egressClassOfServiceMap

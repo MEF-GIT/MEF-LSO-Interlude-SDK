@@ -1,16 +1,16 @@
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
+$id: urn:mef:lso:spec:ip:soam:stamp.configuration:v0.0.1:all
 x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
+description: STAMP Performance Monitoring Configuration Schema
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO - IP STAMP Configuration
+    # MEF Forum - Date: 20231108  Edit-level: 
+    # File: ip/soam/stampConfiguration.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -56,35 +56,35 @@ title:
 type: object
 properties:
   description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
+    STAMP is an Active Measurement protocol for IP networks defined in RFC 8762. It uses UDP
+    encapsulation. Reference MEF 66 Section 8.4.1.2 STAMP.
+  interface:
+    $ref: '../../soamCommon.yaml#/definitions/Location'
+  vlan:
+    type: integer
+  modeOfOperation:
     type: string
     enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+      - 'Unauthenticated'
+      - 'Authenticated'
+      - 'Encrypted'
+  sourceIpAddress:
+    description: Source IP address.
+    oneOf: 
+      - $ref: '../../soamCommon.yaml#/definitions/Ipv6Address'
+      - $ref: '../../soamCommon.yaml#/definitions/Ipv4Address'
+  destinationIpAddress:
+    description: Destination IP address.
+    oneOf: 
+      - $ref: '../../soamCommon.yaml#/definitions/Ipv6Address'
+      - $ref: '../../soamCommon.yaml#/definitions/Ipv4Address'
+  controllerMpTransmitUdpPort:
+    description: Controller MP transmit UDP port.
+    type: integer
+    min: 0
+    max: 65535
+    default: 862
+  responderMpReceiveUdpPort:
+    description: Responder MP receive UDP port.
+    type: integer
+    default: 862

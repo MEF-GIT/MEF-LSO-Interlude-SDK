@@ -1,16 +1,14 @@
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
+$id: urn:mef:lso:spec:legato:ip-enni-link:v0.0.4:all
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO Legato - IP ENNI Link Specification
+    # MEF Forum - Date: 20231009  Edit-level: 
+    # File: ip/ipEnniLink.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -53,38 +51,16 @@ title:
     # products or services.
     # ---------------------
     #
+description: |
+  An ENNI can comprise one or more distinct IP Links, each of which is a single IP hop. 
+  These links are known as ENNI Links, and typically each corresponds to a distinct IP 
+  subnet (which can have both IPv4 and IPv6 addressing).  ENNI Links are assumed to be 
+  point-to-point. Reference MEF 61.1 Section 8.2 ENNIs and ENNI Links.
 type: object
 properties:
-  description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
-    type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+  ipv4ConnectionAddressing:
+    $ref: './ipCommon.yaml#/definitions/EnniIpv4ConnectionAddressing'
+  ipv6ConnectionAddressing:
+    $ref: './ipCommon.yaml#/definitions/EnniIpv6ConnectionAddressing'
+allOf:
+  - $ref: './ipServicesExternalInterfaceLink.yaml'

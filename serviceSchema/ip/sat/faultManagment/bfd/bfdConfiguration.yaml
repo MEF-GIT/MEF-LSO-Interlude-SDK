@@ -1,11 +1,11 @@
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
+$id: urn:mef:lso:spec:service:bfd-configuration:v0.0.1:all
 x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
+description: IP Performance Monitoring BFD Configuration Schema.
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO Service - IP Bi-Directional Forwarding Configuration
+    # MEF Forum - Date: 20241217  Edit-level: 
+    # File: ip/sat/faultManagment/bfd/bfdConfiguration.yaml
     #
     # ---------------------
     # Disclaimer
@@ -56,35 +56,32 @@ title:
 type: object
 properties:
   description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
-    type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+    Ping configuration attributes. Reference MEF 66 SOAM for IP Services, Section 7.3
+    FM Reporting.
+  interface:
+    $ref: '../fmCommon.yaml#/definitions/Location'
+  vlan:
+    type: integer
+  sourceIpAddress:
+    $ref: '../fmCommon.yaml#/definitions/Ipv4OrIpv6Address'
+  destinationIpAddress:
+    $ref: '../fmCommon.yaml#/definitions/Ipv4OrIpv6Address'
+  transmissionInterval:
+    description: Transmission interval.
+    $ref: '../fmCommon.yaml#/definitions/BfdDuration'
+  dscpValue:
+    description: >-
+      DSCP value of IP SOAM FM packets containing BFD packets. Reference MEF 66 Section
+      7.2.1.2 BFD Support [R9].
+    type: integer
+    minimum: 0
+    maximum: 63
+    default: 48
+  bfdMultiplier:
+    description: >-
+      BFD multiplier. Reference MEF 66 Section
+    type: integer
+
+    
+  
+  

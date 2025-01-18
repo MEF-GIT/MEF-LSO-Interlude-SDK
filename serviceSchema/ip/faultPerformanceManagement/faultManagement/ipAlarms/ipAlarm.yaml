@@ -1,16 +1,16 @@
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-results:v0.0.2:all
-x-mef-target: ResultPayload
-description: IP Performance Monitoring Results Schema.
+$id: urn:mef:lso:spec:service:ip-alarm:v0.0.1:all
+x-mef-target: ServicePayloadSpecificAttributes
+description: IP Alarm Schema.
 title: 
-    MEF LSO Legato - IP Performance Monitoring Results
-    # MEF Forum - Date: 20241224  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringResults.yaml
+    MEF LSO Service - IP Alarm
+    # MEF Forum - Date: 20241211  Edit-level: 
+    # File: ip/faultAndPerformanceManagement/ipAlarm.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -56,39 +56,93 @@ title:
 type: object
 properties:
   description: >-
-    Data type representing the IP packet performance statistics results for receive and transmit.
+    Data type representing the IP packet performance statistics configuration for receive and transmit.
+  interface:
+    type: integer
+  vlan:
+    type: integer
+  startTime:
+    format: date-time
+    type: string
+  endTime:
+    format: date-time
+    type: string
   protocol:
     description: Protocol type
     type: string
     enum:
       - IPV4
       - IPV6
-      - ARP
-  packetsIn:
-    description: Packets measured on input interface.
-    type: integer
-  charsIn:
-    description: Characters measured on input interface.
-    type: integer
-  packetsOut:
-    description: Packets measured on output interface.
-    type: integer
-  charsOut:
-    description: Characters measured on output interface.
-    type: integer
-  utilizationIn:
-    description: Input interface utilization.
-    $ref: '#/definitions/Percentage'
-  utilizationOut:
-    description: Output interface utilization.
-    $ref: '#/definitions/Percentage'
-  peakUtilizationIn:
-    description: Input interface peak utilization.
-    $ref: '#/definitions/Percentage'
-  peakUtilizationOut:
-    description: Output interface peak utilization.
-    $ref: '#/definitions/Percentage'
+      - ARP  
 definitions:
+  AlarmSeverity:
+    description: Alarm severity
+    type: string
+    enum:
+      - CRITICAL
+      - MAJOR
+      - MINOR
+      - NA
+      - INFORMATIONAL
+  InputBandwidthUtilizationTca:
+    type: object
+    description: 
+    properties:
+      severity: 
+        $ref: '#/definitions/AlarmSeverity'
+      bandwidthUtilizationThresholdValue:
+        $ref: '#/definitions/Percentage'
+  InHeaderErrorTca:
+    type: object
+    description: >-
+      The number of packets received by this IP instance and then discarded because of IP 
+      headers errors. These error types include checksum and format errors, version number 
+      and option mismatch, and TTL count expiration.
+    properties:
+      severity: 
+        $ref: '#/definitions/AlarmSeverity'
+      erroredThresholdValue:
+        type: integer
+  LossOfSignal:
+    type: object
+    description: Loss of signal alarm.
+    properties:
+      severity: 
+        $ref: '#/definitions/AlarmSeverity'
+  LinkUpAlarm:
+    type: object
+    description:
+    properties:
+      severity: 
+        $ref: '#/definitions/AlarmSeverity'
+  LinkDown:
+    type: object
+    description: 
+    properties:
+      severity: 
+        $ref: '#/definitions/AlarmSeverity'
+  LossOfCommunication:
+    type: object
+    description: 
+    properties:
+      severity: 
+        $ref: '#/definitions/AlarmSeverity'
+  OutputBandwidthUtilizationTca:
+    type: object
+    description: 
+    properties:
+      severity: 
+        $ref: '#/definitions/AlarmSeverity'
+      bandwidthUtilizationThresholdValue:
+        $ref: '#/definitions/Percentage'
+  PacketLossRate:
+    type: object
+    description: 
+    properties:
+      severity: 
+        $ref: '#/definitions/AlarmSeverity'
+      bandwidthUtilizationThresholdValue:
+        $ref: '#/definitions/Percentage'
   Percentage:
     description: This is a number of percent - a number between 0 and 100.
     maximum: 100
@@ -99,6 +153,20 @@ definitions:
     properties:
       serviceUptimeObjective:
         $ref: '#/definitions/Percentage'
+    type: object
+  SlsReferencePoint:
+    oneOf:
+      - $ref: '#/definitions/Location'
+      - $ref: '#/definitions/IpvcEndPoint'
+      - description: SlsReferencePoint is an abstract data type that can be subclassed to IpvcEndPoint and Location. Reference MEF 61.1 Section 10.9.1 SLS Reference Points.
+        type: object
+  SlsRpPair:
+    description: Service Level Specification Reference Point Pair. In a multipoint or rooted multipoint IPVC, performance objectives are ideally specified as applying between pairs of IPVC EPs - in other words, they apply to the performance that IP Data Packets experience as they flow from one EI to another. The SlsRpPair is a representation of this association. Reference MEF 61.1 Section 10.9.1
+    properties:
+      fromSlsReferencePoint:
+        $ref: '#/definitions/SlsReferencePoint'
+      toSlsReferencePoint:
+        $ref: '#/definitions/SlsReferencePoint'
     type: object
   TimeDuration:
     description: This class is used to describe durations expressed as a 2-tuple, (value, units). The units from from nanoseconds to years.

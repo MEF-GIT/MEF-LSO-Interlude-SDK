@@ -1,16 +1,14 @@
+$id: urn:mef:lso:spec:legato:ip-uni:v0.0.4:all
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
 title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+    MEF LSO Legato - IP UNI Specification
+    # MEF Forum - Date: 20231009  Edit-level: 
+    # File: ip/ipUni.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -53,38 +51,45 @@ title:
     # products or services.
     # ---------------------
     #
-type: object
+description: | 
+  A User Network Interface (UNI) is the demarcation point between the responsibility 
+  of the SP and the responsibility of the Subscriber. Note that a given UNI always 
+  relates to a single SP and a single Subscriber. Reference MEF 61.1 Section 7.3 UNIs 
+  and UNI Access Links.
 properties:
-  description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
-    type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+  managementType:
+    $ref: "./ipCommon.yaml#/definitions/UniManagementType"
+  ingressBwpEnvelope:
+    $ref: "./ipCommon.yaml#/definitions/IpUniIngressBwpEnvelope"
+  egressBwpEnvelope:
+    $ref: "./ipCommon.yaml#/definitions/IpUniEgressBwpEnvelope"
+  listOfControlProtocols:
+    description:
+      Indication of IP Control Protocols that are not forwarded transparently by
+      the SP. Reference MEF 61.1 Section 12.6 UNI List of Control Protocols
+      Service Attribute. Absence of this attribute corresponds to a value of
+      "None".
+    type: array
+    minItems: 0
+    items:
+      $ref: "./ipCommon.yaml#/definitions/ControlProtocols"
+  routingProtocols:
+    description:
+      List of Routing Protocols used across the UNI. Reference MEF 61.1 Section
+      12.7 UNI Routing Protocols Service Attribute. Absence of this attribute
+      corresponds to a value of "None".
+    $ref: "./ipCommon.yaml#/definitions/RoutingProtocols"
+  reversePathForwarding:
+    $ref: "./ipCommon.yaml#/definitions/EnabledDisabled"
+    description: >-
+      Indicates whether Reverse Path Forwarding checks are used by the SP at the
+      UNI. Reference MEF 61.1 Section 12.8 UNI Reverse Path Forwarding Service
+      Attribute.  [D11]	At a UNI with an IPVC EP for an Internet Access Service,
+      reversePathForwarding SHOULD be ENABLED. Reference MEF 69.1 Section 9.3
+      Internet Access UNI Requirements.
+required:
+  - managementType
+  - reversePathForwarding
+allOf:
+  - $ref: "./ipServicesExternalInterface.yaml"
+  - type: object

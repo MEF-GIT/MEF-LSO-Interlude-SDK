@@ -1,16 +1,13 @@
 $schema: http://json-schema.org/draft-07/schema#
-$id: urn:mef:lso:spec:legato:ip-performance-monitoring-configuration:v0.0.2:all
-x-mef-target: ServicePayloadSpecificAttributes
-description: IP Performance Monitoring Configuration Schema.
-title: 
-    MEF LSO Legato - IP Performance Monitoring Configuration
-    # MEF Forum - Date: 20241220  Edit-level: 
-    # File: ip/faultAndPerformanceManagement/ipPerformanceMonitoringConfiguration.yaml
+$id: urn:mef:lso:spec:legato:ucsEndPoint:v0.0.1:all
+title: MEF LSO Legato - SD-WAN Underlay Connectivity Service End Point
+    # MEF Forum - Date: 20230516  Edit-level: 
+    # File: sdWan/ucsEndPoint.yaml
     #
     # ---------------------
     # Disclaimer
     # 
-    # © MEF Forum 2024. All Rights Reserved.
+    # © MEF Forum 2023. All Rights Reserved.
     # 
     # The information in this publication is freely available for reproduction
     # and use by any recipient and is believed to be accurate as of its
@@ -53,38 +50,13 @@ title:
     # products or services.
     # ---------------------
     #
-type: object
+description:
+  A UCS is connected to a UCS UNI by a UCS End Point. Some service architectures support multiple UCSs at the same UCS UNI. The UCS End Point captures Service Attributes at the UCS UNI whose value can differ between UCSs. Reference MEF 70.1 Section 14 UCS End Point Service Attributes.
 properties:
-  description: >-
-    Data type representing the IP packet performance statistics configuration for receive and transmit. 
-  protocol:
-    description: Protocol type
+  identifier:
     type: string
-    enum:
-      - IPV4
-      - IPV6
-      - ARP
-  packetsIn:
-    description: Enable or disable collection of input IP packets on monitored interface.
-    type: boolean
-  charsIn:
-    description: Enable or disable collection of input IP characters on monitored interface.
-    type: boolean
-  packetsOut:
-    description: Enable or disable collection of output IP packets on monitored interface.
-    type: boolean
-  charsOut:
-    description: Enable or disable collection of output IP characters on monitored interface.
-    type: boolean
-  utilizationIn:
-    description: Enable or disable collection of input bandwdith utilization on monitored interface.
-    type: boolean
-  utilizationOut:
-    description: Enable or disable collection of output bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationIn:
-    description: Enable or disable collection of input peak bandwdith utilization on monitored interface.
-    type: boolean
-  peakUtilizationOut:
-    description: Enable or disable collection of output peak bandwdith utilization on monitored interface.
-    type: boolean
+    description: Identification of the Underlay Connectivity Service End Point. Reference MEF 70.1 Section 14.1 UCS End Point Identifier Service Attribute.
+  endPointBackup:
+    $ref: 'sdWanTypes.yaml#/definitions/EnabledDisabled'
+  endPointBreakout:
+    $ref: 'sdWanTypes.yaml#/definitions/EnabledDisabled'

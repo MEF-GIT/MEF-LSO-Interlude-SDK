@@ -957,7 +957,7 @@ components:
             sent. E.g. for
             'callback':  "https://buyer.mplify.com/listenerEndpoint", the alarm
             event notification will be  sent to:
-            `https://buyer.mplify.com/listenerEndpoint/mefApi/interlude/alarmNotification/v2/listener/`
+            `https://buyer.mplify.com/listenerEndpoint/mefApi/interlude/alarmNotification/v3/listener/`
           type: string
         query:
           description: >-
